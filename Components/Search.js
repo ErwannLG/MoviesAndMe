@@ -2,8 +2,14 @@ import React from 'react'
 import { StyleSheet, View, TextInput, Button, Text, FlatList } from 'react-native'
 import films from '../Helpers/filmsData'
 import FilmItem from './FilmItem'
+import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi'
 
 class Search extends React.Component {
+
+  _loadFilms() {
+
+  }
+
   render() {
     return (
       <View style={styles.main_container}>
