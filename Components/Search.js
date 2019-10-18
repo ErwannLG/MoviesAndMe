@@ -9,7 +9,8 @@ class Search extends React.Component {
     super(props)
     this.searchedText = "" // Initialisation de notre donnée searchedText en dehors du state
     this.state = {
-      films: []
+      films: [],
+      isLoading: false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
     }
   }
 
@@ -33,6 +34,7 @@ class Search extends React.Component {
           style={styles.textinput}
           placeholder='Titre du film'
           onChangeText={(text) => this._searchTextInputChanged(text)}
+          onSubmitEditing={() => this._loadFilms()}
         />
         <Button title='Rechercher' onPress={() => this._loadFilms()}/>
         <FlatList
