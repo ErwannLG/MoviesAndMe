@@ -50,7 +50,8 @@ class Search extends React.Component {
     this.totalPages = 0
     this.setState({
       films: []
-    }, () =>) {
+    }, () => {
+      console.log("Page : " + this.page + " / TotalPages : " + this.totalPages + " / Nombre de films : " + this.state.films.length)
       this._loadFilms()
     })
   }
