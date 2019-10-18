@@ -45,6 +45,16 @@ class Search extends React.Component {
     }
   }
 
+  _searchFilms() {
+    this.page = 0
+    this.totalPages = 0
+    this.setState({
+      films: []
+    }, () =>) {
+      this._loadFilms()
+    })
+  }
+
   render() {
     console.log("RENDER")
     console.log(this.state.isLoading)
