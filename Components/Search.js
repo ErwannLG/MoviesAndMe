@@ -7,6 +7,8 @@ class Search extends React.Component {
 
   constructor(props) {
     super(props)
+    this.page = 0
+    this.totalPages = 0
     this.searchedText = "" // Initialisation de notre donnée searchedText en dehors du state
     this.state = {
       films: [],
@@ -21,11 +23,13 @@ class Search extends React.Component {
   _loadFilms() {
     if (this.searchedText.length > 0) { // Seulement si le texte recherché n'est pas vide
       this.setState({ isLoading: true }) // Lancement du chargement
-      getFilmsFromApiWithSearchedText(this.searchedText).then(data => {
-          this.setState({
-            films: data.results,
-            isLoading: false // Arrêt du chargement
-          })
+      getFilmsFromApiWithSearchedText(this.searchedText, this.page+1).then(data => {
+        this.page = data.page
+        this.totalPages = data.total_pages
+        this.setState({
+          films: [ ...this.state.films, ...data.results], // Ajouter les nouveaux films aux films déjà récupérés, équivalent ES6 de concat
+          isLoading: false // Arrêt du chargement
+        })
       })
     }
   }
@@ -56,6 +60,12 @@ class Search extends React.Component {
         <FlatList
           data={this.state.films}
           keyExtractor={(item) => item.id.toString()}
+          onEndReachThreashold={0.5}
+          onEndReached={() => {
+            if (this.page < this.totalPages) {
+              this._loadFilms()
+            }
+          }}
           renderItem={({item}) => <FilmItem film={item}/>}
         />
         {this._displayLoading()}
